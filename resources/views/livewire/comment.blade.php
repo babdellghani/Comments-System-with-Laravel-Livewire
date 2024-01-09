@@ -2,7 +2,7 @@
     <article class="my-6 text-base bg-white rounded-lg">
         <footer class="flex items-center justify-between mb-6">
             <div class="flex items-center">
-                <p class="inline-flex items-center mr-3 text-sm text-gray-900">
+                <p class="inline-flex items-center mr-3 text-sm text-gray-900 capitalize">
                     <img class="mr-2 w-6 h-6 rounded-full" src="{{ $comment->user->avatar() }}"
                         alt="{{ $comment->user->name }}">
                     {{ $comment->user->name }}
