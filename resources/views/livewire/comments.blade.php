@@ -59,12 +59,18 @@
             </article>
         </div>
 
-        <form class="mb-6">
-            <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
+        <form class="mb-6" wire:submit="postComment">
+            <div class="py-2 mb-4">
                 <label for="comment" class="sr-only">Your comment</label>
-                <textarea id="comment" style="resize: none"
-                    class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none"
-                    placeholder="Write a comment..."></textarea>
+                <textarea wire:model="form.body" style="resize: none"  rows="4" placeholder="Write a comment..."
+                    class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
+                    @error('form.body')
+                    text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
+                    @enderror"></textarea>
+
+                @error('form.body')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
 
             </div>
             <button type="submit"
