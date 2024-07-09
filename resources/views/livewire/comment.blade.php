@@ -1,5 +1,9 @@
-<div x-data="{ isReplying: @entangle('isReplying') }">
+<div x-data="{
+    isReplying: @entangle('isReplying'),
+    isEditing: @entangle('isEditing')
+}">
     <article class="my-6 text-base bg-white rounded-lg">
+        {{-- Comment Header --}}
         <footer class="flex items-center justify-between mb-6">
             <div class="flex items-center">
                 <p class="inline-flex items-center mr-3 text-sm text-gray-900 capitalize">
@@ -14,14 +18,41 @@
                 </p>
             </div>
         </footer>
-        <p class="text-gray-500">
+
+        {{-- Comment Body --}}
+        <p class="text-gray-500" x-show="!isEditing" x-transition>
             {{ $comment->body }}
         </p>
 
+        {{-- Reply Form Update --}}
+        <form class="mb-6 mt-6" x-show="isEditing" x-transition wire:submit="storeReply">
+            <div class="py-2 mb-4">
+                <label for="comment" class="sr-only">Your comment</label>
+                <textarea wire:model="replyForm.body" placeholder="Write a comment..."
+                    class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
+                @error('replyForm.body')
+                    text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
+                @enderror"></textarea>
+                @error('replyForm.body')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <button type="submit"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-800">
+                Update
+            </button>
+
+            <button @click="isEditing=false" type="button"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-lg">
+                Cancel
+            </button>
+        </form>
+
         {{-- Reply, Edit, Delete Section --}}
-        <div class="flex items-center mt-4 space-x-4">
+        <div class="flex items-center mt-4 space-x-4" x-show="!isEditing">
             @if (!$comment->parent_id)
-                <button @click="isReplying=!isReplying" type="button"
+                <button type="button" @click="isReplying=!isReplying"
                     class="flex items-center text-sm text-gray-500 hover:underline">
                     <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor"
                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -33,7 +64,8 @@
                 </button>
             @endif
 
-            <button type="button" class="flex items-center text-sm text-gray-500 hover:underline">
+            <button type="button" @click="isEditing=!isEditing"
+                class="flex items-center text-sm text-gray-500 hover:underline">
                 <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
