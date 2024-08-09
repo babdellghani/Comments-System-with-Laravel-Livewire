@@ -1,6 +1,6 @@
 <div x-data="{
     isReplying: @entangle('isReplying'),
-    isEditing: @entangle('isEditing')
+    isEditing: @entangle('isEditing'),
 }">
     <article class="my-6 text-base bg-white rounded-lg">
         {{-- Comment Header --}}
@@ -15,6 +15,12 @@
                 <p class="text-sm text-gray-600">
                     <time pubdate
                         datetime="{{ $comment->created_at }}">{{ $comment->created_at->diffForHumans() }}</time>
+                    @if ($comment->updated_at > $comment->created_at)
+                        <span class="mx-1">•</span>
+                        <span class="text-sm text-gray-400" title="Edited at {{ $comment->updated_at }}">
+                            Edited
+                        </span>
+                    @endif
                 </p>
             </div>
         </footer>
@@ -25,15 +31,15 @@
         </p>
 
         {{-- Reply Form Update --}}
-        <form class="mb-6 mt-6" x-show="isEditing" x-transition wire:submit="storeReply">
+        <form x-show="isEditing" x-transition wire:submit.prevent="updateComment">
             <div class="py-2 mb-4">
                 <label for="comment" class="sr-only">Your comment</label>
-                <textarea wire:model="replyForm.body" placeholder="Write a comment..."
+                <textarea wire:model="updateForm.body" placeholder="Write a comment..."
                     class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
-                @error('replyForm.body')
+                @error('updateForm.body')
                     text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
                 @enderror"></textarea>
-                @error('replyForm.body')
+                @error('updateForm.body')
                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -50,7 +56,7 @@
         </form>
 
         {{-- Reply, Edit, Delete Section --}}
-        <div class="flex items-center mt-4 space-x-4" x-show="!isEditing">
+        <div class="flex items-center mt-4 space-x-4">
             @if (!$comment->parent_id)
                 <button type="button" @click="isReplying=!isReplying"
                     class="flex items-center text-sm text-gray-500 hover:underline">
