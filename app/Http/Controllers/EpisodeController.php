@@ -12,6 +12,6 @@ class EpisodeController extends Controller
      */
     public function __invoke(Episode $episode)
     {
-        return view('episode.show', compact('episode'));
+        return view('episodes.show', compact('episode'));
     }
 }

@@ -18,8 +18,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('article.show');
-    Route::get('/episodes/{episode:slug}', [EpisodeController::class, 'show'])->name('episode.show');
+    Route::get('/articles/{article:slug}', ArticleController::class)->name('article.show');
+    Route::get('/episodes/{episode:slug}', EpisodeController::class)->name('episode.show');
 });
 
 require __DIR__.'/auth.php';
