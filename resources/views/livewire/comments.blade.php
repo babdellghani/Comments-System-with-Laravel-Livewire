@@ -2,7 +2,7 @@
     <div class="max-w-2xl mx-auto px-4">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-lg lg:text-xl text-gray-900">
-
+                Comments (3)
             </h2>
         </div>
         {{-- body --}}

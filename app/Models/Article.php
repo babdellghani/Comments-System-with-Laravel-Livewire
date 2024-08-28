@@ -13,4 +13,9 @@ class Article extends Model
         'title',
         'slug',
     ];
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
