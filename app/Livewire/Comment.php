@@ -5,10 +5,17 @@ namespace App\Livewire;
 use App\Livewire\Forms\ReplyForm;
 use App\Livewire\Forms\UpdateCommentForm;
 use App\Models\Comment as CommentModel;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class Comment extends Component
 {
+    use AuthorizesRequests;
+
+    protected $listeners = [
+        'deleteComment' => 'refresh',
+    ];
+
     public CommentModel $comment;
 
     public $isReplying = false, $isEditing = false;

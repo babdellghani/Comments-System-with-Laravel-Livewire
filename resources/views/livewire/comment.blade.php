@@ -84,7 +84,8 @@
             @endcan
 
             @can('delete', $comment)
-                <button wire:confirm="Are you sure?" wire:click="$parent.deleteComment({{ $comment->id }})" type="button"
+                <button wire:confirm="Are you sure?"
+                    wire:click="$dispatch('deleteComment', { 'comment': {{ $comment->id }} })" type="button"
                     class="flex items-center text-sm text-gray-500 hover:underline">
                     <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
