@@ -5,12 +5,16 @@
                 Comments ({{ $model->comments()->count() }})
             </h2>
         </div>
-        {{-- Comment Body --}}
 
+        {{-- Comment Body --}}
         @foreach ($comments as $comment)
             @livewire('comment', ['comment' => $comment], key($comment->id))
         @endforeach
 
+        {{-- Pagination --}}
+        <div class="my-5">
+            {{ $comments->links() }}
+        </div>
 
         {{-- Comment Form --}}
         <form class="mb-6" wire:submit="postComment">
