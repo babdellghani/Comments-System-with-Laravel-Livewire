@@ -31,7 +31,7 @@
         </p>
 
         {{-- Reply Form Update --}}
-        <form x-show="isEditing" x-transition wire:submit.prevent="updateComment">
+        <form x-show="isEditing" x-transition wire:submit.prevent="updateComment" x-cloak>
             <div class="py-2 mb-4">
                 <label for="comment" class="sr-only">Your comment</label>
                 <textarea wire:model="updateForm.body" placeholder="Write a comment..."
@@ -100,7 +100,7 @@
     </article>
 
     {{-- Reply Form --}}
-    <form class="mb-6 mt-6 ml-6" x-show="isReplying" x-transition wire:submit="storeReply">
+    <form class="mb-6 mt-6 ml-6" x-show="isReplying" x-transition wire:submit="storeReply" x-cloak>
         <div class="py-2 mb-4">
             <label for="comment" class="sr-only">Your comment</label>
             <textarea wire:model="replyForm.body" placeholder="Write a comment..."
