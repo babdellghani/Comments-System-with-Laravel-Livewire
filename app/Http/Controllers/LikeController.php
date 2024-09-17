@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use Illuminate\Http\Request;
 
-class ArticleController extends Controller
+class LikeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,7 +34,7 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Like $like)
     {
         //
     }
@@ -41,7 +42,7 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Like $like)
     {
         //
     }
@@ -49,7 +50,7 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Like $like)
     {
         //
     }
@@ -57,7 +58,7 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Like $like)
     {
         //
     }

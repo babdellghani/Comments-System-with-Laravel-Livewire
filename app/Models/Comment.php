@@ -42,4 +42,14 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function likedBy(User $user): bool
+    {
+        return $this->likes->contains('user_id', $user->id);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\Like;
 use App\Livewire\Forms\ReplyForm;
 use App\Livewire\Forms\UpdateCommentForm;
 use App\Models\Comment as CommentModel;
@@ -24,6 +25,8 @@ class Comment extends Component
 
     public UpdateCommentForm $updateForm;
 
+    public Like $addLikeForm;
+
     public function mount()
     {
         $this->updateForm->body = $this->comment->body;
@@ -41,6 +44,11 @@ class Comment extends Component
         $this->updateForm->updateComment($this->comment);
         $this->isEditing = false;
         $this->mount();
+    }
+
+    public function likeComment()
+    {
+        $this->addLikeForm->like($this->comment->id);
     }
 
     public function render()
