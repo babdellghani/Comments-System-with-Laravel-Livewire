@@ -2,11 +2,11 @@
     <div class="max-w-2xl mx-auto px-4">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-lg lg:text-xl text-gray-900">
-                Comments ({{ $model->comments()->count() }})
+                Discussion ({{ $model->comments()->count() }})
             </h2>
         </div>
 
-        @if ($c²omments->count() == 0)
+        @if ($comments->count() > 0)
             {{-- Comment Body --}}
             @foreach ($comments as $comment)
                 @livewire('comment', ['comment' => $comment], key($comment->id))

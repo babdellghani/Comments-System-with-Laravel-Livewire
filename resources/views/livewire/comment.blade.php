@@ -1,7 +1,12 @@
 <div x-data="{
     isReplying: @entangle('isReplying'),
     isEditing: @entangle('isEditing'),
-}">
+}" x-effect="if (isReplying) {
+        $nextTick(() => $refs.replyInput.focus())
+    }; 
+    if (isEditing) {
+        $nextTick(() => $refs.updateInput.focus())
+    }">
     <article class="my-6 text-base bg-white rounded-lg">
         {{-- Comment Header --}}
         <footer class="flex items-center justify-between mb-6">
@@ -34,7 +39,7 @@
         <form x-show="isEditing" x-transition wire:submit.prevent="updateComment" x-cloak>
             <div class="py-2 mb-4">
                 <label for="comment" class="sr-only">Your comment</label>
-                <textarea wire:model="updateForm.body" placeholder="Write a comment..."
+                <textarea x-ref="updateInput" wire:model="updateForm.body" placeholder="Write a comment..."
                     class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
                 @error('updateForm.body')
                     text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
@@ -103,7 +108,7 @@
     <form class="mb-6 mt-6 ml-6" x-show="isReplying" x-transition wire:submit="storeReply" x-cloak>
         <div class="py-2 mb-4">
             <label for="comment" class="sr-only">Your comment</label>
-            <textarea wire:model="replyForm.body" placeholder="Write a comment..."
+            <textarea x-ref="replyInput" wire:model="replyForm.body" placeholder="Write a comment..."
                 class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
                 @error('replyForm.body')
                     text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
