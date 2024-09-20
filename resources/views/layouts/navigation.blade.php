@@ -15,8 +15,15 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('articles.index')" :active="request()->routeIs(['articles.index', 'article.show'])">
+                        {{ __('Articles') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('episodes.index')" :active="request()->routeIs(['episodes.index', 'episode.show'])">
+                        {{ __('Episodes') }}
+                    </x-nav-link>
                 </div>
             </div>
+
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -69,6 +76,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('articles.index')" :active="request()->routeIs(['articles.index', 'article.show'])">
+                {{ __('Articles') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('episodes.index')" :active="request()->routeIs(['episodes.index', 'episode.show'])">
+                {{ __('Episodes') }}
             </x-responsive-nav-link>
         </div>
 

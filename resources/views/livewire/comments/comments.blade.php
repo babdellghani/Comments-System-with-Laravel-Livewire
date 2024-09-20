@@ -6,22 +6,6 @@
             </h2>
         </div>
 
-        @if ($comments->count() > 0)
-            {{-- Comment Body --}}
-            @foreach ($comments as $comment)
-                @livewire('comment', ['comment' => $comment], key($comment->id))
-            @endforeach
-
-            {{-- Pagination --}}
-            <div class="my-5">
-                {{ $comments->links() }}
-            </div>
-        @else
-            <div class="my-5 text-center">
-                No comments yet
-            </div>
-        @endif
-
         {{-- Comment Form --}}
         <form class="mb-6" wire:submit="postComment">
             <div class="py-2 mb-4">
@@ -42,6 +26,22 @@
                 Comment
             </button>
         </form>
+
+        @if ($comments->count() > 0)
+            {{-- Comment Body --}}
+            @foreach ($comments as $comment)
+                @livewire('comment', ['comment' => $comment], key($comment->id))
+            @endforeach
+
+            {{-- Pagination --}}
+            <div class="my-5">
+                {{ $comments->links() }}
+            </div>
+        @else
+            <div class="my-5 text-center">
+                No comments yet
+            </div>
+        @endif
 
     </div>
 </section>

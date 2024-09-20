@@ -21,7 +21,6 @@ class Comments extends Component
     public function postComment()
     {
         $this->form->storeComment($this->model);
-
         $this->gotoPage(1);
     }
 
@@ -34,7 +33,7 @@ class Comments extends Component
 
     public function render()
     {
-        return view('livewire.comments', [
+        return view('livewire.comments.comments', [
             'comments' => $this->model->comments()->with(['user', 'likes', 'replies.user' => fn($q) => $q->latest(), 'replies.replies' => fn($q) => $q->latest()])->parent()->latest()->paginate(3),
         ]);
     }

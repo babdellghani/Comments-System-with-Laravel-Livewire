@@ -53,6 +53,7 @@ class Comment extends Component
 
     public function render()
     {
-        return view('livewire.comment');
+        return view('livewire.comments.comment');
     }
 }
+

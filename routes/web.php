@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Articles;
+use App\Livewire\Episodes;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,7 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Route::get('/articles/{article:slug}', ArticleController::class)->name('article.show');
+    Route::get('/articles', Articles::class)->name('articles.index');
+    Route::get('/episodes', Episodes::class)->name('episodes.index');
+
+    Route::get('/articles/{article:slug}', ArticleController::class)->name('article.show');
     Route::get('/episodes/{episode:slug}', EpisodeController::class)->name('episode.show');
 });
 

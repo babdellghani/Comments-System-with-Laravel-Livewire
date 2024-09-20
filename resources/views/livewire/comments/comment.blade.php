@@ -10,7 +10,7 @@
     }">
     <article class="my-6 text-base bg-white rounded-lg">
         {{-- Comment Header --}}
-        <footer class="flex items-center justify-between mb-6">
+        <footer class="flex items-center justify-between mb-3">
             <div class="flex items-center">
                 <p class="inline-flex items-center mr-3 text-sm text-gray-900 capitalize">
                     <img class="mr-2 w-6 h-6 rounded-full" src="{{ $comment->user->avatar() }}"
@@ -32,7 +32,7 @@
         </footer>
 
         {{-- Comment Body --}}
-        <p class="text-gray-500" x-show="!isEditing" x-transition>
+        <p class="text-gray-500 ml-2" x-show="!isEditing" x-transition>
             {{ $comment->body }}
         </p>
 
@@ -62,7 +62,7 @@
         </form>
 
         {{-- Reply, Edit, Delete Section --}}
-        <div class="flex items-center mt-4 space-x-4">
+        <div class="flex items-center mt-3 space-x-4">
             @if (!$comment->parent_id)
                 <button type="button" @click="isReplying=!isReplying"
                     class="flex items-center text-sm text-gray-500 hover:underline">
@@ -105,7 +105,7 @@
 
             <button type="button" wire:click="likeComment({{ $comment->id }})"
                 class="flex items-center text-sm text-gray-500 hover:underline">
-                @if ($comment->likedBy(auth()->user()))
+                @if ($comment->presenter()->likedBy(auth()->user()))
                     <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="black" viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
