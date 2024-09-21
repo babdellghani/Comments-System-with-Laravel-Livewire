@@ -3,13 +3,15 @@
 namespace App\Livewire;
 
 use App\Models\Article;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 
 class Articles extends Component
 {
-    use WithPagination;
+    use WithPagination, AuthorizesRequests;
 
 
     public $title, $slug, $article_id;
@@ -34,6 +36,7 @@ class Articles extends Component
      */
     public function create()
     {
+        $this->authorize('create', Article::class);
         $this->resetInputFields();
         $this->openModal();
     }
@@ -83,9 +86,12 @@ class Articles extends Component
             'required|unique:articles,slug,' . $this->article_id,
         ]);
 
+        $this->authorize('create', Article::class);
+
         Article::updateOrCreate(['id' => $this->article_id], [
             'title' => $this->title,
             'slug' => Str::slug($this->slug),
+            'user_id' => Auth::id(),
         ]);
 
         session()->flash(
@@ -105,6 +111,7 @@ class Articles extends Component
     public function edit($id)
     {
         $article = Article::findOrFail($id);
+        $this->authorize('update', $article);
         $this->article_id = $id;
         $this->title = $article->title;
         $this->slug = $article->slug;
@@ -119,6 +126,8 @@ class Articles extends Component
      */
     public function delete($id)
     {
+        $article = Article::findOrFail($id);
+        $this->authorize('delete', $article);
         Article::find($id)->delete();
         session()->flash('message', 'Article Deleted Successfully.');
     }

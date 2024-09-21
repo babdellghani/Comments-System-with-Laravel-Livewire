@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Comment;
+use App\Models\Episode;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class CommentPolicy
+class EpisodePolicy
 {
     /**
      * Determine whether the user can create models.
@@ -19,16 +19,16 @@ class CommentPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Comment $comment): bool
+    public function update(User $user, Episode $episode): bool
     {
-        return $user->id === $comment->user_id;
+        return $user->id === $episode->user_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Comment $comment): bool
+    public function delete(User $user, Episode $episode): bool
     {
-        return $user->id === $comment->user_id;
+        return $user->id === $episode->user_id;
     }
 }

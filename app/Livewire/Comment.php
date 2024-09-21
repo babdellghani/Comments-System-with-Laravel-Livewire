@@ -34,6 +34,7 @@ class Comment extends Component
 
     public function storeReply()
     {
+        $this->authorize('create');
         $this->replyForm->storeReply($this->comment);
         $this->isReplying = false;
     }

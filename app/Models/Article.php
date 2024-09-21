@@ -14,6 +14,7 @@ class Article extends Model
     protected $fillable = [
         'title',
         'slug',
+        'user_id',
     ];
 
     public function comments(): MorphMany

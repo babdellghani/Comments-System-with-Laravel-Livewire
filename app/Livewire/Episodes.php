@@ -6,10 +6,12 @@ use App\Models\Episode;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Episodes extends Component
 {
-    use WithPagination;
+    use WithPagination, AuthorizesRequests;
 
 
     public $title, $slug, $episode_id;
@@ -34,6 +36,7 @@ class Episodes extends Component
      */
     public function create()
     {
+        $this->authorize('create', Episode::class);
         $this->resetInputFields();
         $this->openModal();
     }
@@ -83,9 +86,12 @@ class Episodes extends Component
             'required|unique:episodes,slug,' . $this->episode_id,
         ]);
 
+        $this->authorize('create', Episode::class);
+
         Episode::updateOrCreate(['id' => $this->episode_id], [
             'title' => $this->title,
             'slug' => Str::slug($this->slug),
+            'user_id' => Auth::id(),
         ]);
 
         session()->flash(
@@ -105,6 +111,7 @@ class Episodes extends Component
     public function edit($id)
     {
         $episode = Episode::findOrFail($id);
+        $this->authorize('update', $episode);
         $this->episode_id = $id;
         $this->title = $episode->title;
         $this->slug = $episode->slug;
@@ -119,6 +126,8 @@ class Episodes extends Component
      */
     public function delete($id)
     {
+        $episode = Episode::findOrFail($id);
+        $this->authorize('delete', $episode);
         Episode::find($id)->delete();
         session()->flash('message', 'Episode Deleted Successfully.');
     }
