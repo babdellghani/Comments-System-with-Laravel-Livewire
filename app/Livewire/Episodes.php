@@ -86,7 +86,12 @@ class Episodes extends Component
             'required|unique:episodes,slug,' . $this->episode_id,
         ]);
 
-        $this->authorize('create', Episode::class);
+        if ($this->episode_id) {
+            $episode = Episode::findOrFail($this->episode_id);
+            $this->authorize('update', $episode);
+        } else {
+            $this->authorize('create', Episode::class);
+        }
 
         Episode::updateOrCreate(['id' => $this->episode_id], [
             'title' => $this->title,

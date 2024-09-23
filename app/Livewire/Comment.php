@@ -23,9 +23,7 @@ class Comment extends Component
     public $isReplying = false, $isEditing = false;
 
     public ReplyForm $replyForm;
-
     public UpdateCommentForm $updateForm;
-
     public Like $addLikeForm;
 
     public function mount()
@@ -35,7 +33,7 @@ class Comment extends Component
 
     public function storeReply()
     {
-        $this->authorize('create');
+        $this->authorize('create', $this->comment);
         $this->replyForm->storeReply($this->comment);
         $this->isReplying = false;
     }
@@ -46,6 +44,7 @@ class Comment extends Component
         $this->updateForm->updateComment($this->comment);
         $this->isEditing = false;
         $this->mount();
+        session()->flash('message', 'Comment updated successfully.');
     }
 
     public function likeComment()

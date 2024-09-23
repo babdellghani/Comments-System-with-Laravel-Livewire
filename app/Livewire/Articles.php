@@ -23,7 +23,7 @@ class Articles extends Component
      * @var array
      */
     public function render()
-    {        
+    {
         return view('livewire.articles.articles', [
             'articles' => Article::latest()->paginate(3),
         ]);
@@ -86,7 +86,12 @@ class Articles extends Component
             'required|unique:articles,slug,' . $this->article_id,
         ]);
 
-        $this->authorize('create', Article::class);
+        if ($this->article_id) {
+            $article = Article::findOrFail($this->article_id);
+            $this->authorize('update', $article);
+        } else {
+            $this->authorize('create', Article::class);
+        }
 
         Article::updateOrCreate(['id' => $this->article_id], [
             'title' => $this->title,

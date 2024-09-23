@@ -15,13 +15,14 @@ class Comments extends Component
     use AuthorizesRequests, WithPagination;
 
     public Model $model;
-    
+
     public CommentForm $form;
 
     public function postComment()
     {
         $this->form->storeComment($this->model);
         $this->gotoPage(1);
+        session()->flash('message', 'Your comment has been posted successfully.');
     }
 
     #[On('deleteComment')]
@@ -29,20 +30,19 @@ class Comments extends Component
     {
         $this->authorize('delete', $comment);
         $comment->delete();
+        session()->flash('message', 'Your comment has been deleted successfully.');
     }
 
     public function render()
     {
+        $comments = $this->model->comments()
+            ->with(['user', 'likes', 'replies.user', 'replies.likes', 'replies.replies.user', 'replies.replies.likes'])
+            ->parent()
+            ->latest()
+            ->paginate(10);
+
         return view('livewire.comments.comments', [
-            'comments' => $this->model->comments()
-                ->with(['user', 'likes'])
-                ->with(['replies' => function ($query) {
-                    $query->with(['user', 'likes', 'replies'])
-                        ->latest()->paginate(3);
-                }])
-                ->parent()
-                ->latest()
-                ->paginate(3),
+            'comments' => $comments,
         ]);
     }
 }

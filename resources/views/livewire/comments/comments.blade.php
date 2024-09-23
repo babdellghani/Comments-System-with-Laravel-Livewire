@@ -1,5 +1,19 @@
 <section class="bg-white py-8 lg:py-16">
     <div class="max-w-2xl mx-auto px-4">
+
+        {{-- Message Alert --}}
+        @if (session()->has('message'))
+            <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3"
+                role="alert">
+                <div class="flex">
+                    <div>
+                        <p class="text-sm">{{ session('message') }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        {{-- Discussion Header --}}
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-lg lg:text-xl text-gray-900">
                 Discussion ({{ $comments->total() }})
