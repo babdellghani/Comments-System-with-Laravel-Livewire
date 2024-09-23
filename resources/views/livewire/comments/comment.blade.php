@@ -105,49 +105,67 @@
 
             <button type="button" wire:click="likeComment({{ $comment->id }})"
                 class="flex items-center text-sm text-gray-500 hover:underline">
-                @if ($comment->presenter()->likedBy(auth()->user()))
-                    <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="black" viewBox="0 0 20 20"
+                @auth
+                    @if ($comment->presenter()->likedBy(auth()->user()))
+                        <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="black" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    @else
+                        <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                            </path>
+                        </svg>
+                    @endif
+                @endauth
+                @guest
+                    <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                @else
-                    <svg aria-hidden="true" class="mr-1 w-4 h-4" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
                         </path>
                     </svg>
-                @endif
-                {{ $comment->likes->count() }}
+                @endguest
+                <span class="text-sm text-gray-500">{{ $comment->likes->count() }}</span>
             </button>
         </div>
     </article>
 
     {{-- Reply Form --}}
     <form class="mb-6 mt-6 ml-6" x-show="isReplying" x-transition wire:submit="storeReply" x-cloak>
-        <div class="py-2 mb-4">
-            <label for="comment" class="sr-only">Your comment</label>
-            <textarea x-ref="replyInput" wire:model="replyForm.body" placeholder="Write a comment..."
-                class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
+        @auth
+            <div class="py-2 mb-4">
+                <label for="comment" class="sr-only">Your comment</label>
+                <textarea x-ref="replyInput" wire:model="replyForm.body" placeholder="Write a comment..."
+                    class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
                 @error('replyForm.body')
                     text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
                 @enderror"></textarea>
-            @error('replyForm.body')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+                @error('replyForm.body')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <button type="submit"
-            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-800">
-            Reply
-        </button>
+            <button type="submit"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-800">
+                Reply
+            </button>
 
-        <button @click="isReplying=false" type="button"
-            class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-lg">
-            Cancel
-        </button>
+            <button @click="isReplying=false" type="button"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-lg">
+                Cancel
+            </button>
+        @else
+            <p class="text-sm text-gray-500">
+                You must be
+                <a href="{{ route('login') }}" class="text-blue-500 hover:underline">logged in</a>
+                to reply
+            </p>
+        @endauth
     </form>
 
     {{-- Replies --}}

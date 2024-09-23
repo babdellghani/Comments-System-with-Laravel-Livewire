@@ -34,7 +34,15 @@ class Comments extends Component
     public function render()
     {
         return view('livewire.comments.comments', [
-            'comments' => $this->model->comments()->with(['user', 'likes', 'replies.user' => fn($q) => $q->latest(), 'replies.replies' => fn($q) => $q->latest()])->parent()->latest()->paginate(3),
+            'comments' => $this->model->comments()
+                ->with(['user', 'likes'])
+                ->with(['replies' => function ($query) {
+                    $query->with(['user', 'likes', 'replies'])
+                        ->latest()->paginate(3);
+                }])
+                ->parent()
+                ->latest()
+                ->paginate(3),
         ]);
     }
 }

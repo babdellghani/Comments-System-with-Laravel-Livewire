@@ -8,23 +8,31 @@
 
         {{-- Comment Form --}}
         <form class="mb-6" wire:submit="postComment">
-            <div class="py-2 mb-4">
-                <label for="comment" class="sr-only">Your comment</label>
-                <textarea wire:model="form.body" style="resize: none" rows="4" placeholder="Write a comment..."
-                    class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
+            @auth
+                <div class="py-2 mb-4">
+                    <label for="comment" class="sr-only">Your comment</label>
+                    <textarea wire:model="form.body" style="resize: none" rows="4" placeholder="Write a comment..."
+                        class="shadow-sm block rounded-md w-full border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500
                     @error('form.body')
                     text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500 border-red-300
                     @enderror"></textarea>
 
-                @error('form.body')
-                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+                    @error('form.body')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
 
-            </div>
-            <button type="submit"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-800">
-                Comment
-            </button>
+                </div>
+                <button type="submit"
+                    class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-blue-800">
+                    Comment
+                </button>
+            @else
+                <p class="text-sm text-center text-gray-500">
+                    You must be
+                    <a href="{{ route('login') }}" class="text-blue-500 hover:underline">logged in</a>
+                    to comment
+                </p>
+            @endauth
         </form>
 
         @if ($comments->count() > 0)

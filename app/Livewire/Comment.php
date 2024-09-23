@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
+use Livewire\Component;
 use App\Livewire\Forms\Like;
 use App\Livewire\Forms\ReplyForm;
-use App\Livewire\Forms\UpdateCommentForm;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Comment as CommentModel;
+use App\Livewire\Forms\UpdateCommentForm;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Livewire\Component;
 
 class Comment extends Component
 {
@@ -49,6 +50,10 @@ class Comment extends Component
 
     public function likeComment()
     {
+        // if guest return to login
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
         $this->addLikeForm->like($this->comment->id);
     }
 
