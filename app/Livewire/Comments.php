@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\Comment;
+use Livewire\Component;
 use App\Livewire\Forms\CommentForm;
 use Illuminate\Database\Eloquent\Model;
-use Livewire\Component;
 
 class Comments extends Component
 {
@@ -15,6 +16,12 @@ class Comments extends Component
     public function postComment()
     {
         $this->form->storeComment($this->model);
+    }
+
+    public function deleteComment($comment_id)
+    {
+        $comment = Comment::findOrFail($comment_id);
+        $comment->delete();
     }
 
     public function render()
