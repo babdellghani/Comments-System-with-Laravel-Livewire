@@ -21,6 +21,7 @@ class Comments extends Component
     public function deleteComment($comment_id)
     {
         $comment = Comment::findOrFail($comment_id);
+        $this->authorize('delete', $comment);
         $comment->delete();
     }
 
