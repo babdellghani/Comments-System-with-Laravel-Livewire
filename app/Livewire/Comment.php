@@ -30,6 +30,7 @@ class Comment extends Component
 
     public function updateComment()
     {
+        $this->authorize('update', $this->comment);
         $this->updateForm->updateComment($this->comment);
         $this->isEditing = false;
         $this->mount();

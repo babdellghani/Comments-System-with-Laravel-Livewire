@@ -17,6 +17,8 @@ class Comment extends Model
         'user_id',
     ];
 
+    
+
     public function commentable(): MorphTo
     {
         return $this->morphTo();
