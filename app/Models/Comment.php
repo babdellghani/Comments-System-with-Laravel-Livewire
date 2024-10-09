@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Presenters\CommentPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,16 +18,19 @@ class Comment extends Model
         'user_id',
     ];
 
-    
-
-    public function commentable(): MorphTo
+    public function presenter()
     {
-        return $this->morphTo();
+        return new CommentPresenter($this);
     }
 
     public function scopeParent(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
+    }
+
+    public function commentable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     public function user()

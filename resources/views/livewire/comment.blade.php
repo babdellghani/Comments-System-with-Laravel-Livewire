@@ -14,7 +14,7 @@
 
                 <p class="text-sm text-gray-600">
                     <time pubdate
-                        datetime="{{ $comment->created_at }}">{{ $comment->created_at->diffForHumans() }}</time>
+                        datetime="{{ $comment->created_at }}">{{ $comment->presenter()->relativeCreatedAt() }}</time>
                     @if ($comment->updated_at > $comment->created_at)
                         <span class="mx-1">•</span>
                         <span class="text-sm text-gray-400" title="Edited at {{ $comment->updated_at }}">
