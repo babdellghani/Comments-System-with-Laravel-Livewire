@@ -5,10 +5,10 @@
                 📝
             </div>
             <div>
-                <h2 class="font-bold text-2xl text-white leading-tight">
+                <h2 class="font-bold text-2xl text-dark leading-tight">
                     {{ $article->title }}
                 </h2>
-                <p class="text-purple-100 text-sm">
+                <p class="text-purple-700 text-sm">
                     Published {{ $article->created_at->diffForHumans() }}
                     @if($article->user)
                         by {{ $article->user->name }}
@@ -49,11 +49,6 @@
                         <span>🕒</span>
                         <span>{{ $article->created_at->format('M d, Y') }}</span>
                     </div>
-                    
-                    <div class="flex items-center space-x-2">
-                        <span>⏱️</span>
-                        <span>5 min read</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -70,15 +65,7 @@
                         <div class="flex items-center space-x-6">
                             <div class="flex items-center space-x-2 text-gray-600">
                                 <span>💬</span>
-                                <span class="font-medium">Comments</span>
-                            </div>
-                            <div class="flex items-center space-x-2 text-gray-600">
-                                <span>👁️</span>
-                                <span class="font-medium">Views</span>
-                            </div>
-                            <div class="flex items-center space-x-2 text-gray-600">
-                                <span>❤️</span>
-                                <span class="font-medium">Likes</span>
+                                <span class="font-medium">{{ $article->comments_count ?? $article->comments->count() }} Comments</span>
                             </div>
                         </div>
                         

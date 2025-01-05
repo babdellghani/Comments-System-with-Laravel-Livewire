@@ -144,11 +144,7 @@
                                 <div class="flex items-center space-x-4 text-sm text-gray-500">
                                     <span class="flex items-center">
                                         <span class="mr-1">💬</span>
-                                        Comments
-                                    </span>
-                                    <span class="flex items-center">
-                                        <span class="mr-1">👁️</span>
-                                        Views
+                                        {{ $article->comments_count ?? $article->comments->count() }} Comments
                                     </span>
                                 </div>
                                 

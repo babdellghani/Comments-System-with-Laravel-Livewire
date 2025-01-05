@@ -90,37 +90,6 @@
                         </p>
                     </div>
 
-                    <!-- Video Upload Section (Placeholder) -->
-                    <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-100">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                                <span class="text-white">📹</span>
-                            </div>
-                            <h4 class="font-semibold text-gray-800">Video Content</h4>
-                        </div>
-                        <p class="text-sm text-blue-700 mb-4">
-                            📺 Video upload functionality can be added here. You can integrate with services like YouTube, Vimeo, or upload directly to your server.
-                        </p>
-                        <div class="grid grid-cols-2 gap-4 text-sm text-gray-600">
-                            <div class="flex items-center">
-                                <span class="mr-2">✅</span>
-                                <span>HD Quality Support</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="mr-2">✅</span>
-                                <span>Multiple Formats</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="mr-2">✅</span>
-                                <span>Auto Thumbnails</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="mr-2">✅</span>
-                                <span>Streaming Ready</span>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Content Preview (if editing) -->
                     @if($episode_id)
                         <div class="bg-blue-50 rounded-xl p-4">

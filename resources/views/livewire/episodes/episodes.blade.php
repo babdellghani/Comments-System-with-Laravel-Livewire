@@ -98,16 +98,6 @@
                             <div class="relative bg-gradient-to-r from-indigo-500 to-cyan-500 h-48 flex items-center justify-center">
                                 <div class="text-6xl text-white/80">🎬</div>
                                 <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
-                                <div class="absolute top-4 right-4">
-                                    <div class="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm font-medium">
-                                        HD
-                                    </div>
-                                </div>
-                                <div class="absolute bottom-4 left-4">
-                                    <div class="bg-black/50 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm font-medium">
-                                        🕒 25:30
-                                    </div>
-                                </div>
                             </div>
 
                             <!-- Episode Content -->
@@ -162,26 +152,14 @@
                                 <div class="flex items-center justify-between mb-6 pt-4 border-t border-gray-100">
                                     <div class="flex items-center space-x-4 text-sm text-gray-500">
                                         <span class="flex items-center">
-                                            <span class="mr-1">👁️</span>
-                                            1.2K views
-                                        </span>
-                                        <span class="flex items-center">
                                             <span class="mr-1">💬</span>
-                                            Comments
-                                        </span>
-                                        <span class="flex items-center">
-                                            <span class="mr-1">❤️</span>
-                                            Likes
+                                            {{ $episode->comments_count ?? $episode->comments->count() }} Comments
                                         </span>
                                     </div>
                                 </div>
 
                                 <!-- Episode Actions -->
                                 <div class="flex items-center justify-between">
-                                    <div class="flex items-center space-x-2">
-                                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                        <span class="text-sm text-green-600 font-medium">Available</span>
-                                    </div>
                                     
                                     <a href="{{ route('episode.show', $episode->slug) }}"
                                        class="group inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-medium rounded-xl hover:from-indigo-600 hover:to-cyan-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">

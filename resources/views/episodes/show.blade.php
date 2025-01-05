@@ -5,10 +5,10 @@
                 🎬
             </div>
             <div>
-                <h2 class="font-bold text-2xl text-white leading-tight">
+                <h2 class="font-bold text-2xl text-dark leading-tight">
                     {{ $episode->title }}
                 </h2>
-                <p class="text-blue-100 text-sm">
+                <p class="text-blue-700 text-sm">
                     Published {{ $episode->created_at->diffForHumans() }}
                     @if($episode->user)
                         by {{ $episode->user->name }}
@@ -27,15 +27,15 @@
         </div>
         
         <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="items-center">
                 <!-- Episode Info -->
                 <div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 w-full">
                         <h1 class="text-3xl md:text-4xl font-bold text-white mb-6">
                             {{ $episode->title }}
                         </h1>
                         
-                        <div class="flex flex-wrap items-center gap-6 text-blue-100 mb-6">
+                        <div class="flex flex-wrap items-center justify-between gap-6 text-blue-100 mb-6">
                             @if($episode->user)
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white font-semibold">
@@ -52,35 +52,17 @@
                                 <span>🕒</span>
                                 <span>{{ $episode->created_at->format('M d, Y') }}</span>
                             </div>
-                            
-                            <div class="flex items-center space-x-2">
-                                <span>⏱️</span>
-                                <span>25:30 duration</span>
-                            </div>
-                            
-                            <div class="flex items-center space-x-2">
-                                <span>👁️</span>
-                                <span>1.2K views</span>
-                            </div>
                         </div>
 
                         <!-- Episode Stats -->
-                        <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div class="w-full mb-6">
                             <div class="bg-white/10 rounded-xl p-4 text-center">
-                                <div class="text-2xl font-bold text-white">1.2K</div>
-                                <div class="text-sm text-blue-200">Views</div>
-                            </div>
-                            <div class="bg-white/10 rounded-xl p-4 text-center">
-                                <div class="text-2xl font-bold text-white">89</div>
-                                <div class="text-sm text-blue-200">Likes</div>
-                            </div>
-                            <div class="bg-white/10 rounded-xl p-4 text-center">
-                                <div class="text-2xl font-bold text-white">12</div>
+                                <div class="text-2xl font-bold text-white">{{ $episode->comments_count ?? $episode->comments->count() }}</div>
                                 <div class="text-sm text-blue-200">Comments</div>
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap gap-3">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
                             <a href="{{ route('episodes.index') }}" 
                                class="inline-flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105">
                                 <span class="mr-2">🎬</span>
@@ -97,49 +79,7 @@
                     </div>
                 </div>
 
-                <!-- Video Player Placeholder -->
-                <div class="lg:order-first">
-                    <div class="relative bg-black rounded-3xl overflow-hidden shadow-2xl">
-                        <div class="aspect-video flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-800">
-                            <!-- Video Player Placeholder -->
-                            <div class="text-center text-white">
-                                <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
-                                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M8 5v14l11-7z"/>
-                                    </svg>
-                                </div>
-                                <h3 class="text-xl font-semibold mb-2">Video Player</h3>
-                                <p class="text-gray-300">Integrate your preferred video player here</p>
-                                <p class="text-sm text-gray-400 mt-2">(YouTube, Vimeo, HTML5, etc.)</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Video Controls Overlay -->
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                            <div class="flex items-center justify-between text-white">
-                                <div class="flex items-center space-x-4">
-                                    <button class="hover:text-blue-400 transition-colors">
-                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z"/>
-                                        </svg>
-                                    </button>
-                                    <span class="text-sm">00:00 / 25:30</span>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <button class="hover:text-blue-400 transition-colors p-2">
-                                        <span>🔊</span>
-                                    </button>
-                                    <button class="hover:text-blue-400 transition-colors p-2">
-                                        <span>⚙️</span>
-                                    </button>
-                                    <button class="hover:text-blue-400 transition-colors p-2">
-                                        <span>⛶</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
         </div>
     </div>
@@ -166,32 +106,8 @@
                             <div class="grid md:grid-cols-2 gap-4 text-gray-600">
                                 <p><strong>Title:</strong> {{ $episode->title }}</p>
                                 <p><strong>Slug:</strong> <code class="bg-white px-2 py-1 rounded text-sm">{{ $episode->slug }}</code></p>
-                                <p><strong>Duration:</strong> 25:30</p>
-                                <p><strong>Quality:</strong> HD 1080p</p>
-                                <p><strong>Format:</strong> MP4</p>
-                                <p><strong>Status:</strong> <span class="text-green-600 font-medium">Available</span></p>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex flex-wrap gap-4 mt-8 pt-6 border-t border-gray-100">
-                        <button class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 font-medium rounded-xl transition-all duration-300 hover:scale-105">
-                            <span class="mr-2">❤️</span>
-                            Like (89)
-                        </button>
-                        <button class="inline-flex items-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-medium rounded-xl transition-all duration-300 hover:scale-105">
-                            <span class="mr-2">💾</span>
-                            Save to Playlist
-                        </button>
-                        <button class="inline-flex items-center px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 font-medium rounded-xl transition-all duration-300 hover:scale-105">
-                            <span class="mr-2">📤</span>
-                            Share Episode
-                        </button>
-                        <button class="inline-flex items-center px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 font-medium rounded-xl transition-all duration-300 hover:scale-105">
-                            <span class="mr-2">🔔</span>
-                            Subscribe
-                        </button>
                     </div>
                 </div>
             </div>
