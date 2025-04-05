@@ -112,7 +112,7 @@
         @if ($comments->count() > 0)
             <div class="space-y-6">
                 @foreach ($comments as $comment)
-                    @livewire('comment', ['comment' => $comment], key($comment->id))
+                    @livewire('comment', ['comment' => $comment, 'nestingLevel' => 0], key($comment->id))
                 @endforeach
             </div>
 

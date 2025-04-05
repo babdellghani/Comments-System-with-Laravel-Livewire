@@ -19,6 +19,7 @@ class Comment extends Component
     ];
 
     public CommentModel $comment;
+    public $nestingLevel = 0;
 
     public $isReplying = false, $isEditing = false;
 

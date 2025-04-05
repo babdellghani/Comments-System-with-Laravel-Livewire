@@ -8,8 +8,29 @@
     if (isEditing) {
         $nextTick(() => $refs.updateInput.focus())
     }">
-    <article class="my-6 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100/50 overflow-hidden hover:shadow-xl transition-all duration-300">
-        <div class="p-6">
+    @php
+        $currentNesting = $nestingLevel ?? 0;
+        // Adjust spacing and padding based on nesting level
+        $articleMargin = match(true) {
+            $currentNesting <= 1 => 'my-6',
+            $currentNesting <= 3 => 'my-4',
+            default => 'my-3'
+        };
+        
+        $articlePadding = match(true) {
+            $currentNesting <= 2 => 'p-6',
+            $currentNesting <= 4 => 'p-4',
+            default => 'p-3'
+        };
+        
+        // Adjust shadow and rounding for very deep nesting
+        $articleStyling = $currentNesting >= 4 
+            ? 'bg-white/70 rounded-xl shadow-md border border-gray-200/70' 
+            : 'bg-white/80 rounded-2xl shadow-lg border border-gray-100/50';
+    @endphp
+    
+    <article class="{{ $articleMargin }} {{ $articleStyling }} backdrop-blur-sm overflow-hidden hover:shadow-xl transition-all duration-300">
+        <div class="{{ $articlePadding }}">
             {{-- Comment Header --}}
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center space-x-3">
@@ -80,7 +101,6 @@
             {{-- Action Buttons --}}
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
-                    @if (!$comment->parent_id)
                         <button type="button" @click="isReplying=!isReplying"
                             class="inline-flex items-center px-3 py-2 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all duration-300">
                             <svg class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +110,6 @@
                             </svg>
                             Reply
                         </button>
-                    @endif
 
                     @can('update', $comment)
                         <button type="button" @click="isEditing=!isEditing"
@@ -150,22 +169,42 @@
     </article>
 
     {{-- Reply Form --}}
-    <div class="mt-6 ml-6" x-show="isReplying" x-transition x-cloak>
-        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100 shadow-lg">
+    @php
+        $currentNesting = $nestingLevel ?? 0;
+        // Adjust reply form styling based on nesting level
+        $replyFormMargin = match(true) {
+            $currentNesting == 0 => 'ml-4 sm:ml-6',
+            $currentNesting <= 2 => 'ml-3 sm:ml-4',
+            default => 'ml-2 sm:ml-3'
+        };
+        
+        // Make reply form more compact for deeper nesting
+        $replyFormPadding = $currentNesting >= 3 ? 'p-4' : 'p-6';
+        $replyFormSpacing = $currentNesting >= 3 ? 'space-y-3' : 'space-y-4';
+    @endphp
+    
+    <div class="mt-4 sm:mt-6 {{ $replyFormMargin }}" x-show="isReplying" x-transition x-cloak>
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl {{ $replyFormPadding }} border border-purple-100 shadow-lg">
             @auth
-                <form wire:submit="storeReply" class="space-y-4">
-                    <div class="flex items-center space-x-3 mb-4">
-                        <img class="w-8 h-8 rounded-full ring-2 ring-purple-200" 
-                             src="{{ Auth::user()->avatar() }}"
-                             alt="{{ Auth::user()->name }}">
-                        <span class="font-semibold text-gray-800">Reply as {{ Auth::user()->name }}</span>
-                    </div>
+                <form wire:submit="storeReply" class="{{ $replyFormSpacing }}">
+                    @if($currentNesting < 3)
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img class="w-8 h-8 rounded-full ring-2 ring-purple-200" 
+                                 src="{{ Auth::user()->avatar() }}"
+                                 alt="{{ Auth::user()->name }}">
+                            <span class="font-semibold text-gray-800">Reply as {{ Auth::user()->name }}</span>
+                        </div>
+                    @else
+                        <div class="text-sm text-gray-600 mb-3">
+                            <span class="font-medium">{{ Auth::user()->name }}</span> • replying
+                        </div>
+                    @endif
                     
                     <div>
                         <label for="reply" class="sr-only">Your reply</label>
                         <textarea x-ref="replyInput" wire:model="replyForm.body" 
                             placeholder="Write your reply..."
-                            rows="3"
+                            rows="{{ $currentNesting >= 3 ? '2' : '3' }}"
                             class="w-full px-4 py-3 border-2 border-purple-200 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 text-gray-800 placeholder-gray-500 bg-white resize-none
                             @error('replyForm.body') border-red-300 focus:border-red-500 focus:ring-red-500/20 @enderror"></textarea>
                         @error('replyForm.body')
@@ -178,26 +217,30 @@
 
                     <div class="flex items-center space-x-3">
                         <button type="submit"
-                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-500/50 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-500/50 transform hover:scale-105 transition-all duration-300 shadow-lg text-sm">
                             <span class="mr-2">💬</span>
                             Reply
                         </button>
 
                         <button @click="isReplying=false" type="button"
-                            class="inline-flex items-center px-4 py-2 border-2 border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-xl focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300">
+                            class="inline-flex items-center px-4 py-2 border-2 border-gray-300 text-gray-700 bg-white hover:bg-gray-50 rounded-xl focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 text-sm">
                             <span class="mr-2">❌</span>
                             Cancel
                         </button>
                     </div>
                 </form>
             @else
-                <div class="text-center py-6">
-                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <span class="text-purple-600 text-2xl">🔐</span>
-                    </div>
-                    <p class="text-gray-600 mb-4">You must be logged in to reply</p>
+                <div class="text-center {{ $currentNesting >= 3 ? 'py-4' : 'py-6' }}">
+                    @if($currentNesting < 3)
+                        <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <span class="text-purple-600 text-2xl">🔐</span>
+                        </div>
+                        <p class="text-gray-600 mb-4">You must be logged in to reply</p>
+                    @else
+                        <p class="text-gray-600 mb-3 text-sm">Login required to reply</p>
+                    @endif
                     <a href="{{ route('login') }}" 
-                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-500/50 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-500/50 transform hover:scale-105 transition-all duration-300 shadow-lg text-sm">
                         <span class="mr-2">🔑</span>
                         Sign In
                     </a>
@@ -208,10 +251,51 @@
 
     {{-- Nested Replies --}}
     @if($comment->replies && $comment->replies->count() > 0)
-        <div class="ml-8 mt-6 space-y-4">
-            <div class="border-l-4 border-gradient-to-b from-purple-200 to-pink-200 pl-6">
+        @php
+            // Calculate nesting level
+            $nestingLevel = $nestingLevel ?? 0;
+            $nextLevel = $nestingLevel + 1;
+            
+            // Progressive margin reduction with responsive design
+            $marginClass = match(true) {
+                $nestingLevel == 0 => 'ml-4 sm:ml-6 md:ml-8',
+                $nestingLevel == 1 => 'ml-3 sm:ml-4 md:ml-6', 
+                $nestingLevel == 2 => 'ml-3 sm:ml-4',
+                $nestingLevel == 3 => 'ml-2 sm:ml-3',
+                default => ''
+            };
+            
+            // Border width and color gets more subtle with deeper nesting
+            $borderClass = match(true) {
+                $nestingLevel <= 1 => 'border-l-4 border-purple-200',
+                $nestingLevel == 2 => 'border-l-3 border-purple-150',
+                $nestingLevel == 3 => 'border-l-2 border-gray-200',
+                default => ''
+            };
+            
+            // Padding gets smaller with deeper nesting
+            $paddingClass = match(true) {
+                $nestingLevel <= 1 => 'pl-4 sm:pl-6',
+                $nestingLevel <= 3 => 'pl-3 sm:pl-4',
+                default => ''
+            };
+            
+            // Add subtle background for very deep threads
+            $backgroundClass = $nestingLevel >= 4 ? 'bg-gray-25' : '';
+        @endphp
+        
+        <div class="{{ $marginClass }} mt-4 sm:mt-6 space-y-3 sm:space-y-4 {{ $backgroundClass }}">
+            {{-- Visual indicator for deep nesting --}}
+            @if($nestingLevel >= 4)
+                <div class="text-xs text-gray-500 italic pl-2 py-1 border-l-2 border-gray-200">
+                    <span class="mr-1">💬</span>
+                    Deep conversation thread
+                </div>
+            @endif
+            
+            <div class="{{ $borderClass }} {{ $paddingClass }}">
                 @foreach ($comment->replies as $reply)
-                    @livewire('comment', ['comment' => $reply], key($reply->id))
+                    @livewire('comment', ['comment' => $reply, 'nestingLevel' => $nextLevel], key($reply->id))
                 @endforeach
             </div>
         </div>
