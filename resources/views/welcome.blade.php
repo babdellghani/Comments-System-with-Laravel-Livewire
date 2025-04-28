@@ -100,19 +100,19 @@
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                     <div class="transform hover:scale-110 transition-transform duration-300">
-                        <div class="text-3xl font-bold text-white mb-2">1000+</div>
+                        <div class="text-3xl font-bold text-white mb-2">{{ \App\Models\Article::count() }}+</div>
                         <div class="text-purple-200">Articles</div>
                     </div>
                     <div class="transform hover:scale-110 transition-transform duration-300">
-                        <div class="text-3xl font-bold text-white mb-2">500+</div>
+                        <div class="text-3xl font-bold text-white mb-2">{{ \App\Models\Episode::count() }}+</div>
                         <div class="text-purple-200">Episodes</div>
                     </div>
                     <div class="transform hover:scale-110 transition-transform duration-300">
-                        <div class="text-3xl font-bold text-white mb-2">5000+</div>
+                        <div class="text-3xl font-bold text-white mb-2">{{ \App\Models\Comment::count() }}+</div>
                         <div class="text-purple-200">Comments</div>
                     </div>
                     <div class="transform hover:scale-110 transition-transform duration-300">
-                        <div class="text-3xl font-bold text-white mb-2">200+</div>
+                        <div class="text-3xl font-bold text-white mb-2">{{ \App\Models\User::count() }}+</div>
                         <div class="text-purple-200">Users</div>
                     </div>
                 </div>

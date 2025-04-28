@@ -128,11 +128,11 @@
             </main>
 
             <!-- Footer -->
-            <footer class="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-white py-12 mt-16">
+            <footer class="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-white py-12">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="grid md:grid-cols-4 gap-8">
                         <!-- Brand Section -->
-                        <div class="md:col-span-2">
+                        <div class="md:col-span-3">
                             <h3 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
                                 Livewire Comments System
                             </h3>
@@ -164,17 +164,7 @@
                                 @endauth
                             </ul>
                         </div>
-                        
-                        <!-- Support -->
-                        <div>
-                            <h4 class="text-lg font-semibold mb-4 text-purple-300">Support</h4>
-                            <ul class="space-y-2">
-                                <li><a href="#" class="text-gray-300 hover:text-purple-400 transition-colors">Help Center</a></li>
-                                <li><a href="#" class="text-gray-300 hover:text-purple-400 transition-colors">Contact Us</a></li>
-                                <li><a href="#" class="text-gray-300 hover:text-purple-400 transition-colors">Privacy Policy</a></li>
-                                <li><a href="#" class="text-gray-300 hover:text-purple-400 transition-colors">Terms of Service</a></li>
-                            </ul>
-                        </div>
+                                                
                     </div>
                     
                     <div class="border-t border-gray-700 mt-8 pt-8 text-center">
