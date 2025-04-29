@@ -22,7 +22,7 @@
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white" id="modal-headline">
-                                {{ isset($article_id) ? 'Edit Article' : 'Create New Article' }}
+                                {{ $article_id ? 'Edit Article' : 'Create New Article' }}
                             </h3>
                             <p class="text-purple-100">Share your amazing story with the community</p>
                         </div>
@@ -91,7 +91,7 @@
                     </div>
 
                     <!-- Content Preview (if editing) -->
-                    @if(isset($article_id))
+                    @if($article_id)
                         <div class="bg-purple-50 rounded-xl p-4">
                             <p class="text-sm text-purple-600 font-medium">
                                 💡 You're editing an existing article. The content and comments will be preserved.
@@ -105,8 +105,8 @@
                     <button type="submit"
                         class="group relative w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-500/50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                         <span class="flex items-center">
-                            <span class="mr-2">{{ isset($article_id) ? '💾' : '✨' }}</span>
-                            <span>{{ isset($article_id) ? 'Update Article' : 'Create Article' }}</span>
+                            <span class="mr-2">{{ $article_id ? '💾' : '✨' }}</span>
+                            <span>{{ $article_id ? 'Update Article' : 'Create Article' }}</span>
                         </span>
                         <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl blur opacity-25 group-hover:opacity-40 transition-opacity duration-300"></div>
                     </button>

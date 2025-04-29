@@ -140,7 +140,7 @@
                             </div>
 
                             <!-- Article Actions -->
-                            <div class="flex items-center justify-between pt-6 border-t border-gray-100">
+                            <div class="flex items-center justify-between pt-6 border-t border-gray-100 gap-4">
                                 <div class="flex items-center space-x-4 text-sm text-gray-500">
                                     <span class="flex items-center">
                                         <span class="mr-1">💬</span>
@@ -153,7 +153,7 @@
                                 </div>
                                 
                                 <a href="{{ route('article.show', $article->slug) }}"
-                                   class="group inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+                                   class="group inline-flex items-center text-nowrap px-2 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
                                     <span class="mr-2">👁️</span>
                                     <span>Read More</span>
                                     <svg class="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

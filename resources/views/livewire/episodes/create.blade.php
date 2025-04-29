@@ -22,7 +22,7 @@
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white" id="modal-headline">
-                                {{ isset($episode_id) ? 'Edit Episode' : 'Create New Episode' }}
+                                {{ $episode_id ? 'Edit Episode' : 'Create New Episode' }}
                             </h3>
                             <p class="text-blue-100">Share your amazing video content with the community</p>
                         </div>
@@ -122,7 +122,7 @@
                     </div>
 
                     <!-- Content Preview (if editing) -->
-                    @if(isset($episode_id))
+                    @if($episode_id)
                         <div class="bg-blue-50 rounded-xl p-4">
                             <p class="text-sm text-blue-600 font-medium">
                                 💡 You're editing an existing episode. The video content and comments will be preserved.
@@ -136,8 +136,8 @@
                     <button type="submit"
                         class="group relative w-full sm:w-auto inline-flex justify-center items-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-cyan-700 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
                         <span class="flex items-center">
-                            <span class="mr-2">{{ isset($episode_id) ? '💾' : '🎬' }}</span>
-                            <span>{{ isset($episode_id) ? 'Update Episode' : 'Create Episode' }}</span>
+                            <span class="mr-2">{{ $episode_id ? '💾' : '🎬' }}</span>
+                            <span>{{ $episode_id ? 'Update Episode' : 'Create Episode' }}</span>
                         </span>
                         <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-cyan-600 rounded-xl blur opacity-25 group-hover:opacity-40 transition-opacity duration-300"></div>
                     </button>
