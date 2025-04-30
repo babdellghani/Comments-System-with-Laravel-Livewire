@@ -81,19 +81,18 @@
                         </div>
 
                         <div class="flex flex-wrap gap-3">
-                            @can('update', $episode)
-                                <a href="{{ route('episodes.edit', $episode) }}" 
-                                   class="inline-flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105">
-                                    <span class="mr-2">✏️</span>
-                                    Edit Episode
-                                </a>
-                            @endcan
-                            
                             <a href="{{ route('episodes.index') }}" 
                                class="inline-flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105">
                                 <span class="mr-2">🎬</span>
                                 All Episodes
                             </a>
+                            @can('update', $episode)
+                                <a href="{{ route('episodes.index') }}" 
+                                   class="inline-flex items-center px-4 py-2 bg-blue-500/80 hover:bg-blue-600/80 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105">
+                                    <span class="mr-2">✏️</span>
+                                    Manage Episodes
+                                </a>
+                            @endcan
                         </div>
                     </div>
                 </div>

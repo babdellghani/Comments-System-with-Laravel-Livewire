@@ -27,4 +27,15 @@ Route::get('/episodes', Episodes::class)->name('episodes.index');
 Route::get('/articles/{article:slug}', ArticleController::class)->name('article.show');
 Route::get('/episodes/{episode:slug}', EpisodeController::class)->name('episode.show');
 
+// Redirect edit routes to the respective index pages since editing is handled via Livewire
+Route::middleware('auth')->group(function () {
+    Route::get('/articles/{article}/edit', function($article) {
+        return redirect()->route('articles.index');
+    })->name('articles.edit');
+
+    Route::get('/episodes/{episode}/edit', function($episode) {
+        return redirect()->route('episodes.index');
+    })->name('episodes.edit');
+});
+
 require __DIR__ . '/auth.php';

@@ -83,19 +83,18 @@
                         </div>
                         
                         <div class="flex items-center space-x-3">
-                            @can('update', $article)
-                                <a href="{{ route('articles.edit', $article) }}" 
-                                   class="inline-flex items-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-medium rounded-xl transition-all duration-300 hover:scale-105">
-                                    <span class="mr-2">✏️</span>
-                                    Edit Article
-                                </a>
-                            @endcan
-                            
                             <a href="{{ route('articles.index') }}" 
                                class="inline-flex items-center px-4 py-2 bg-purple-100 hover:bg-purple-200 text-purple-700 font-medium rounded-xl transition-all duration-300 hover:scale-105">
                                 <span class="mr-2">📚</span>
                                 All Articles
                             </a>
+                            @can('update', $article)
+                                <a href="{{ route('articles.index') }}" 
+                                   class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-all duration-300 hover:scale-105">
+                                    <span class="mr-2">✏️</span>
+                                    Manage Articles
+                                </a>
+                            @endcan
                         </div>
                     </div>
                 </div>
