@@ -35,8 +35,9 @@ class Comments extends Component
 
     public function render()
     {
+        // Load comments with all nested replies using a more comprehensive approach
         $comments = $this->model->comments()
-            ->with(['user', 'likes', 'replies.user', 'replies.likes', 'replies.replies.user', 'replies.replies.likes'])
+            ->with($this->getNestedWith())
             ->parent()
             ->latest()
             ->paginate(10);
@@ -44,5 +45,18 @@ class Comments extends Component
         return view('livewire.comments.comments', [
             'comments' => $comments,
         ]);
+    }
+
+    private function getNestedWith($depth = 6)
+    {
+        $with = ['user', 'likes'];
+        
+        if ($depth > 0) {
+            $with['replies'] = function($query) use ($depth) {
+                $query->with($this->getNestedWith($depth - 1));
+            };
+        }
+        
+        return $with;
     }
 }

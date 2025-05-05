@@ -57,6 +57,22 @@ class Comment extends Component
         $this->addLikeForm->like($this->comment->id);
     }
 
+    public function countAllReplies($comment = null)
+    {
+        $comment = $comment ?? $this->comment;
+        return $comment->countAllNestedReplies();
+    }
+
+    public function shouldShowMoreButton()
+    {
+        return $this->countAllReplies() > 3;
+    }
+
+    public function getReplyLimit()
+    {
+        return $this->shouldShowMoreButton() ? 2 : $this->comment->replies->count();
+    }
+
     public function render()
     {
         return view('livewire.comments.comment');

@@ -282,9 +282,16 @@
             
             // Add subtle background for very deep threads
             $backgroundClass = $nestingLevel >= 4 ? 'bg-gray-25' : '';
+            
+            // Use component methods for reply limiting
+            $replyLimit = $this->getReplyLimit();
+            $totalReplies = $comment->replies->count();
+            $hasMoreReplies = $totalReplies > $replyLimit;
+            $visibleReplies = $comment->replies->take($replyLimit);
         @endphp
         
-        <div class="{{ $marginClass }} mt-4 sm:mt-6 space-y-3 sm:space-y-4 {{ $backgroundClass }}">
+        <div class="{{ $marginClass }} mt-4 sm:mt-6 space-y-3 sm:space-y-4 {{ $backgroundClass }}" 
+             x-data="{ showAllReplies: false }">
             {{-- Visual indicator for deep nesting --}}
             @if($nestingLevel >= 4)
                 <div class="text-xs text-gray-500 italic pl-2 py-1 border-l-2 border-gray-200">
@@ -294,9 +301,44 @@
             @endif
             
             <div class="{{ $borderClass }} {{ $paddingClass }}">
-                @foreach ($comment->replies as $reply)
-                    @livewire('comment', ['comment' => $reply, 'nestingLevel' => $nextLevel], key($reply->id))
-                @endforeach
+                {{-- Show initial replies --}}
+                <div class="space-y-3 sm:space-y-4">
+                    @foreach ($visibleReplies as $reply)
+                        @livewire('comment', ['comment' => $reply, 'nestingLevel' => $nextLevel], key($reply->id))
+                    @endforeach
+                </div>
+                
+                {{-- Show remaining replies when expanded --}}
+                @if($hasMoreReplies)
+                    <div x-show="showAllReplies" x-transition class="space-y-3 sm:space-y-4 mt-3 sm:mt-4">
+                        @foreach ($comment->replies->skip($replyLimit) as $reply)
+                            @livewire('comment', ['comment' => $reply, 'nestingLevel' => $nextLevel], key($reply->id))
+                        @endforeach
+                    </div>
+                    
+                    {{-- Show/Hide Replies Button --}}
+                    <div class="mt-4 pt-3 border-t border-gray-100">
+                        <button @click="showAllReplies = !showAllReplies"
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-all duration-300 border border-purple-200 hover:border-purple-300">
+                            <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      x-show="!showAllReplies"
+                                      d="M19 9l-7 7-7-7">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      x-show="showAllReplies"
+                                      d="M5 15l7-7 7 7">
+                                </path>
+                            </svg>
+                            <span x-show="!showAllReplies">
+                                Show {{ $totalReplies - $replyLimit }} more {{ Str::plural('reply', $totalReplies - $replyLimit) }}
+                            </span>
+                            <span x-show="showAllReplies">
+                                Hide replies
+                            </span>
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
     @endif

@@ -47,4 +47,15 @@ class Comment extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function countAllNestedReplies()
+    {
+        $count = $this->replies->count();
+        
+        foreach ($this->replies as $reply) {
+            $count += $reply->countAllNestedReplies();
+        }
+        
+        return $count;
+    }
 }
