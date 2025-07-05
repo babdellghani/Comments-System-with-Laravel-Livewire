@@ -2,6 +2,12 @@
 
 A modern, interactive comments system built with Laravel 11 and Livewire 3. This application demonstrates real-time commenting functionality with nested replies, user authentication, and a clean, responsive interface.
 
+## 🌐 Live Demo
+
+**[View Live Demo](https://comments-system-with-laravel-livewire.up.railway.app/)**
+
+Experience the full functionality of the comments system in action! The demo includes sample articles, episodes, and user interactions to showcase all features.
+
 ## Features
 
 ### 🚀 Core Functionality
